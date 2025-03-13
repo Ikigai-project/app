@@ -56,103 +56,132 @@ export const LeftBar = ({ selectedTab }: { selectedTab: Tab | null }) => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 top-0 hidden flex-col gap-5 border-r-2 border-[#e5e5e5] bg-white p-3 md:flex lg:w-64 lg:p-5">
+      <nav className="fixed bottom-0 left-0 top-0 hidden flex-col gap-5 border-r-2 border-[#e5e5e5] bg-white p-3 
+                     shadow-lg transition-all duration-300 md:flex md:w-16 lg:w-64 lg:p-5">
         <Link
           href="/dashboard"
-          className="mb-5 ml-5 mt-5 hidden text-3xl font-bold text-[#41D185] lg:block"
+          className="mb-5 ml-2 mt-5 flex items-center justify-center lg:justify-start gap-2 text-2xl sm:text-3xl font-bold text-[#41D185]"
         >
-          IKIGAI
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" className="text-[#41D185]">
+            <path d="M16,2C8.268,2,2,8.268,2,16s6.268,14,14,14s14-6.268,14-14S23.732,2,16,2z M16,28C9.383,28,4,22.617,4,16 S9.383,4,16,4s12,5.383,12,12S22.617,28,16,28z"/>
+            <path d="M17 9L15 9 15 15 9 15 9 17 15 17 15 23 17 23 17 17 23 17 23 15 17 15z"/>
+          </svg>
+          <span className="hidden lg:block">IKIGAI</span>
         </Link>
-        <ul className="flex flex-col items-stretch gap-3">
+        
+        <ul className="flex flex-col items-stretch gap-4 mt-2">
           {bottomBarItems.map((item) => {
+            const isActive = item.name === selectedTab;
             return (
               <li key={item.href} className="flex flex-1">
-                {item.name === selectedTab ? (
-                  <Link
-                    href={item.href}
-                    className="flex grow items-center gap-3 rounded-xl border-2 border-[#84d8ff] bg-[#ddf4ff] px-2 py-1 text-sm font-bold uppercase text-blue-400"
-                  >
-                    {item.icon}{" "}
-                    <span className="sr-only lg:not-sr-only">{item.name}</span>
-                  </Link>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="flex grow items-center gap-3 rounded-xl px-2 py-1 text-sm font-bold uppercase text-gray-400 hover:bg-gray-100"
-                  >
-                    {item.icon}{" "}
-                    <span className="sr-only lg:not-sr-only">{item.name}</span>
-                  </Link>
-                )}
+                <Link
+                  href={item.href}
+                  className={`flex grow items-center gap-3 rounded-xl border-2 px-2 py-3 lg:py-2 text-sm font-bold uppercase
+                            transition-all duration-300 ${
+                    isActive 
+                      ? "border-[#84d8ff] bg-[#ddf4ff] text-[#1cb0f6]" 
+                      : "border-transparent text-gray-400 hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex justify-center w-full lg:w-auto">
+                    {item.icon}
+                    {isActive && (
+                      <div className="absolute w-2 h-2 bg-[#ff4b4b] rounded-full -mt-1 -mr-1"></div>
+                    )}
+                  </div>
+                  <span className="sr-only lg:not-sr-only">{item.name}</span>
+                </Link>
               </li>
             );
           })}
+          
           <div
-            className="relative flex grow cursor-default items-center gap-3 rounded-xl px-2 py-1 font-bold uppercase text-gray-400 hover:bg-gray-100"
+            className="relative flex grow cursor-pointer items-center gap-3 rounded-xl px-2 py-3 lg:py-2 font-bold uppercase 
+                     text-gray-400 hover:bg-gray-100 transition-all duration-300"
             onClick={() => setMoreMenuShown((x) => !x)}
             onMouseEnter={() => setMoreMenuShown(true)}
             onMouseLeave={() => setMoreMenuShown(false)}
             role="button"
             tabIndex={0}
           >
-            <LeftBarMoreMenuSvg />{" "}
-            <span className="hidden text-sm lg:inline">Plus</span>
+            <div className="flex justify-center w-full lg:w-auto">
+              <LeftBarMoreMenuSvg />
+            </div>
+            <span className="sr-only lg:not-sr-only">Plus</span>
+            
             <div
-              className={[
-                "absolute left-full top-[-10px] min-w-[300px] rounded-2xl border-2 border-gray-300 bg-white text-left text-gray-400",
-                moreMenuShown ? "" : "hidden",
-              ].join(" ")}
+              className={`absolute left-full top-0 min-w-[300px] rounded-xl border-2 border-gray-300 bg-white 
+                        text-left text-gray-500 shadow-lg transition-opacity duration-200 z-10
+                        ${moreMenuShown ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+              style={{ transform: 'translateX(8px)' }}
             >
               <div className="flex flex-col py-2">
                 <Link
-                  className="flex items-center gap-4 px-5 py-2 text-left uppercase hover:bg-gray-100"
+                  className="flex items-center gap-4 px-5 py-3 text-left hover:bg-gray-100 transition-colors"
                   href="/about"
                 >
-                  <InfoIconSvg className="h-10 w-10" />
-                  À propos d'IKIGAI
+                  <InfoIconSvg className="h-8 w-8" />
+                  <span className="font-medium">À propos d'IKIGAI</span>
                 </Link>
                 <Link
-                  className="flex items-center gap-4 px-5 py-2 text-left uppercase hover:bg-gray-100"
+                  className="flex items-center gap-4 px-5 py-3 text-left hover:bg-gray-100 transition-colors"
                   href="/support"
                 >
-                  <SupportIconSvg className="h-10 w-10" />
-                  Support
+                  <SupportIconSvg className="h-8 w-8" />
+                  <span className="font-medium">Support</span>
                 </Link>
               </div>
-              <div className="flex flex-col border-t-2 border-gray-300 py-2">
+              
+              <div className="flex flex-col border-t border-gray-200 py-2">
                 {!loggedIn && (
                   <button
-                    className="px-5 py-2 text-left uppercase hover:bg-gray-100"
+                    className="px-5 py-3 text-left font-medium hover:bg-gray-100 transition-colors flex items-center"
                     onClick={() => setLoginScreenState("SIGNUP")}
                   >
+                    <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#58cc02] text-white mr-4">
+                      👤
+                    </span>
                     Créer un profil
                   </button>
                 )}
                 <Link
-                  className="px-5 py-2 text-left uppercase hover:bg-gray-100"
+                  className="px-5 py-3 text-left font-medium hover:bg-gray-100 transition-colors flex items-center"
                   href={loggedIn ? "/settings/account" : "/settings/preferences"}
                 >
+                  <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff9600] text-white mr-4">
+                    ⚙️
+                  </span>
                   Paramètres
                 </Link>
                 <Link
-                  className="px-5 py-2 text-left uppercase hover:bg-gray-100"
+                  className="px-5 py-3 text-left font-medium hover:bg-gray-100 transition-colors flex items-center"
                   href="/help"
                 >
+                  <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#1cb0f6] text-white mr-4">
+                    ❓
+                  </span>
                   Aide
                 </Link>
+                
                 {!loggedIn && (
                   <button
-                    className="px-5 py-2 text-left uppercase hover:bg-gray-100"
+                    className="px-5 py-3 text-left font-medium hover:bg-gray-100 transition-colors flex items-center"
                     onClick={() => setLoginScreenState("LOGIN")}
                   >
+                    <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#1cb0f6] text-white mr-4">
+                      🔑
+                    </span>
                     Se connecter
                   </button>
                 )}
                 {loggedIn && (
                   <button
-                    className="px-5 py-2 text-left uppercase hover:bg-gray-100"
+                    className="px-5 py-3 text-left font-medium hover:bg-gray-100 transition-colors flex items-center"
                     onClick={logOut}
                   >
+                    <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff4b4b] text-white mr-4">
+                      🚪
+                    </span>
                     Se déconnecter
                   </button>
                 )}

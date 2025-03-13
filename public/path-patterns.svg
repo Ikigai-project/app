@@ -1,0 +1,13 @@
+<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dotted" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1" fill="currentColor" fill-opacity="0.3"/>
+    </pattern>
+    <pattern id="dashed" width="16" height="8" patternUnits="userSpaceOnUse">
+      <rect x="0" y="3.5" width="8" height="1" fill="currentColor"/>
+    </pattern>
+    <pattern id="zigzag" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M 0,4 L 4,8 L 8,4 L 12,8 L 16,4" stroke="currentColor" stroke-width="1" fill="none"/>
+    </pattern>
+  </defs>
+</svg>

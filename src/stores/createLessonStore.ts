@@ -9,7 +9,7 @@ export type LessonSlice = {
 };
 
 export const createLessonSlice: BoundStateCreator<LessonSlice> = (set, get) => ({
-  lessonsCompleted: 0,
+  lessonsCompleted: 0, // On garde 0 pour commencer, mais l'unité 1 sera toujours active
   increaseLessonsCompleted: (by = 1) =>
     set(({ lessonsCompleted }) => ({
       lessonsCompleted: lessonsCompleted + by,

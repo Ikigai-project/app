@@ -51,32 +51,38 @@ export const TopBar = ({
   return (
     <header className="fixed z-20 h-[58px] w-full">
       <div
-        className={`relative flex h-full w-full items-center justify-between border-b-2 px-[10px] transition duration-500 sm:hidden ${borderColor} ${backgroundColor}`}
+        className={`relative flex h-full w-full items-center justify-between border-b-2 px-3 sm:px-4 transition duration-500 
+                   shadow-md lg:shadow-lg ${borderColor} bg-gradient-to-r from-[#41D185] to-[#4dd891] md:hidden`}
       >
-        <Link href="/dashboard" className="text-xl font-bold text-white">
-          IKIGAI
+        <Link href="/dashboard" className="text-xl font-bold text-white flex items-center gap-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white">
+            <path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8 s3.589-8,8-8s8,3.589,8,8S16.411,20,12,20z"/>
+            <path d="M13 7L11 7 11 11 7 11 7 13 11 13 11 17 13 17 13 13 17 13 17 11 13 11z"/>
+          </svg>
+          <span className="hidden sm:inline-block">IKIGAI</span>
         </Link>
 
-        <button
-          className="flex items-center gap-2 font-bold text-white"
-          onClick={() => setMenu((x) => (x === "STREAK" ? "HIDDEN" : "STREAK"))}
-          aria-label="Voir votre série"
-        >
-          <FireSvg /> <span className="text-white">{streak}</span>
-        </button>
-        
-        <MoreOptionsSvg
-          onClick={() => setMenu((x) => (x === "MORE" ? "HIDDEN" : "MORE"))}
-          role="button"
-          tabIndex={0}
-          aria-label="Plus d'options"
-        />
+        <div className="flex items-center gap-4">
+          <button
+            className="flex items-center gap-2 font-bold text-white transition hover:opacity-80"
+            onClick={() => setMenu((x) => (x === "STREAK" ? "HIDDEN" : "STREAK"))}
+            aria-label="Voir votre série"
+          >
+            <FireSvg /> <span className="text-white">{streak}</span>
+          </button>
+          
+          <button
+            className="flex items-center justify-center transition hover:opacity-80"
+            onClick={() => setMenu((x) => (x === "MORE" ? "HIDDEN" : "MORE"))}
+            aria-label="Plus d'options"
+          >
+            <MoreOptionsSvg role="img" tabIndex={-1} />
+          </button>
+        </div>
 
         <div
-          className={[
-            "absolute left-0 right-0 top-full bg-white transition duration-300",
-            menu === "HIDDEN" ? "opacity-0" : "opacity-100",
-          ].join(" ")}
+          className={`absolute left-0 right-0 top-full bg-white shadow-lg rounded-b-lg z-30
+                    transition-all duration-300 transform ${menu === "HIDDEN" ? "opacity-0 -translate-y-4 pointer-events-none" : "opacity-100 translate-y-0"}`}
           aria-hidden={menu === "HIDDEN"}
         >
           {((): null | JSX.Element => {
@@ -84,11 +90,11 @@ export const TopBar = ({
               case "STREAK":
                 return (
                   <div className="flex grow flex-col items-center gap-3 p-5">
-                    <h2 className="text-xl font-bold">Série</h2>
-                    <p className="text-sm text-gray-400">
+                    <h2 className="text-xl font-bold text-[#ff9600]">Série</h2>
+                    <p className="text-sm text-gray-500 text-center">
                       Pratiquez chaque jour pour maintenir votre série !
                     </p>
-                    <div className="self-stretch">
+                    <div className="self-stretch mt-2">
                       <Calendar now={now} setNow={setNow} />
                     </div>
                   </div>
@@ -96,30 +102,30 @@ export const TopBar = ({
 
               case "MORE":
                 return (
-                  <div className="flex grow flex-col">
+                  <div className="flex grow flex-col rounded-b-lg overflow-hidden">
                     <Link
-                      className="flex items-center gap-2 p-2 font-bold text-gray-700"
+                      className="flex items-center gap-3 p-3 font-bold text-gray-700 hover:bg-gray-50 transition"
                       href="/profile"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4EAAF0] text-white">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4EAAF0] text-white shadow-sm">
                         👤
                       </div>
                       Mon profil
                     </Link>
                     <Link
-                      className="flex items-center gap-2 border-t-2 border-gray-300 p-2 font-bold text-gray-700"
+                      className="flex items-center gap-3 border-t border-gray-200 p-3 font-bold text-gray-700 hover:bg-gray-50 transition"
                       href="/settings"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF8747] text-white">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF8747] text-white shadow-sm">
                         ⚙️
                       </div>
                       Paramètres
                     </Link>
                     <Link
-                      className="flex items-center gap-2 border-t-2 border-gray-300 p-2 font-bold text-gray-700"
+                      className="flex items-center gap-3 border-t border-gray-200 p-3 font-bold text-gray-700 hover:bg-gray-50 transition"
                       href="/help"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#B069F8] text-white">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#B069F8] text-white shadow-sm">
                         ❓
                       </div>
                       Aide
@@ -131,15 +137,16 @@ export const TopBar = ({
                 return null;
             }
           })()}
-          <div
-            className={[
-              "absolute left-0 top-full h-screen w-screen bg-black opacity-30",
-              menu === "HIDDEN" ? "pointer-events-none" : "",
-            ].join(" ")}
-            onClick={() => setMenu("HIDDEN")}
-            aria-label="Masquer le menu"
-            role="button"
-          ></div>
+          
+          {/* Overlay pour fermer le menu */}
+          {menu !== "HIDDEN" && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30 z-[-1]"
+              onClick={() => setMenu("HIDDEN")}
+              aria-label="Masquer le menu"
+              role="button"
+            ></div>
+          )}
         </div>
       </div>
     </header>
